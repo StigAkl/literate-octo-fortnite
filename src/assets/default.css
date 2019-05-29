@@ -1,0 +1,46 @@
+* {
+    margin:0; 
+    padding: 0; 
+}
+
+
+.item {
+    margin-top: 20px; 
+    text-align: center; 
+    height: 420px; 
+    width: 100%; 
+    border: 1px solid black; 
+    padding: 0; 
+}
+
+.info-box {
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    height: 15%; 
+    font-family: 'Open Sans', sans-serif;
+}
+
+p.name{
+    border-bottom: 1px solid black; 
+    float: left; 
+    font-weight: bold; 
+    text-align: left; 
+    padding-left: 5px; 
+    width: 50%;
+    padding: 5px; 
+}
+p.price {
+    border-bottom: 1px solid black; 
+    float: right; 
+    text-align: right; 
+    padding-left: 5px; 
+    width: 50%;
+    padding: 5px; 
+}
+
+p.last-seen {
+    line-height: 50%; 
+    border-top: 1px solid black; 
+    font-style: italic; 
+}
