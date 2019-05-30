@@ -1,0 +1,28 @@
+const express = require("express"); 
+const router = express.Router(); 
+const Item = require("../entities/item"); 
+
+router.get("/api/items", async (req, res) => {
+    try {
+        const items = await Item.find({}); 
+        console.log(items); 
+        res.send("Ost"); 
+    } catch(e) {
+        res.send("Kake") 
+    } 
+});
+
+router.post("/api/items", async(req, res) => {
+    try {
+        const item = new Item(req.body); 
+        await item.save(); 
+        res.status(201).send(item); 
+    } catch(e) {
+        res.status(400).send({
+            error: "Could not create item: " + e
+        }); 
+    }
+})
+
+
+module.exports = router; 
