@@ -39,7 +39,6 @@ class App extends Component {
   }
 
   resetHandler = (e) => {
-    console.log("Test")
     let items = []; 
     this.state.items.map((item) => {
       const id = item._id; 
@@ -47,7 +46,6 @@ class App extends Component {
       axios.put("http://localhost:3001/api/items/" + id, {
                "image": "https://image.fnbr.co/outfit/5ab17f395f957f27504aa54c/png.png"
              }).then((result) => {
-               console.log(result.data); 
                items.push(result.data); 
              }).catch((err) => {
                console.log("Something went wrong when saving image: ", err); 
@@ -116,9 +114,6 @@ class App extends Component {
   return (
 
     <div>
-
-      <button onClick={this.buttonHandler}>Fetch images</button>
-      <button onClick={this.resetHandler}>Reset images</button>
       <BrowserRouter>
         <PropsRoute path="/home" component={Characters} itemList={itemList} />
         <PropsRoute path="/add-item" component={AddItem} />

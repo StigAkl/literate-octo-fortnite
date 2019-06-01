@@ -3,7 +3,6 @@ const Characters = (props) => {
     
     return (
         <div className="container">
-
             {props.itemList}
         </div>
     );
