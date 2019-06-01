@@ -11,7 +11,7 @@ class Character extends Component {
     render() {
 
         const bgStyle = {
-            backgroundImage: `url(${kkk})`,
+            backgroundImage: `url(${this.item.image})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "auto 100%",
             height: "83%"

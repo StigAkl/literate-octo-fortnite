@@ -6,7 +6,7 @@ router.get("/api/items", async (req, res) => {
     try {
         const items = await Item.find({}); 
         console.log(items); 
-        res.send("Ost"); 
+        res.send(items); 
     } catch(e) {
         res.send("Kake") 
     } 
@@ -21,6 +21,15 @@ router.post("/api/items", async(req, res) => {
         res.status(400).send({
             error: "Could not create item: " + e
         }); 
+    }
+})
+
+router.put("/api/items/:id", async(req, res) => {
+    try {
+        const item = await Item.findByIdAndUpdate(req.params.id, req.body); 
+        res.send(item); 
+    } catch(err) {
+        res.status(400).send("error: Something went wrong: " + err); 
     }
 })
 

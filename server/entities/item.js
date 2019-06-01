@@ -11,7 +11,7 @@ const itemSchema = new mongoose.Schema({
         type: Number, 
         required: true, 
         validate(value) {
-            if(value !== 800 && value !== 1200 && value !== 1500 && value !== 2000 && value !== 25) {
+            if(value !== 800 && value !== 1200 && value !== 1500 && value !== 2000 && value !== -1) {
                 throw new Error("Invalid v-bucks price"); 
             }
         }
@@ -24,6 +24,9 @@ const itemSchema = new mongoose.Schema({
     lastSeen: {
         type: Date,
         required: true
+    }, 
+    image: {
+        type: String
     }
 }); 
 
