@@ -4,7 +4,24 @@ const path = require('path');
 const port = process.env.PORT || 3001; 
 const app = express(); 
 const itemRouter = require("./routers/item-router");
+//const Item = require("./entities/item"); 
+
 require('./db/mongoose'); 
+
+// Item.find({}).then((items) => {
+//     items.forEach((item) => {
+//         item.obtained="shop";
+
+//         item.save((err, saved) => {
+//             if(err) {
+//                 console.log("Error saving item:", err); 
+//             } else {
+//                 console.log("Item saved:", saved); 
+//             }
+//         })
+//     }) 
+// })
+
 app.use(favicon(__dirname + '/../build/favicon.ico')); 
 app.use(express.json())
 app.use(express.static(__dirname)); 

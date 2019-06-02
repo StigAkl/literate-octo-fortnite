@@ -27,7 +27,14 @@ router.post("/api/items", async(req, res) => {
 router.put("/api/items/:id", async(req, res) => {
     try {
         const item = await Item.findByIdAndUpdate(req.params.id, req.body); 
-        res.send(item); 
+
+        
+        if(!item) {
+            res.status(404).send("error: Could not find any items with the id " + req.params.id); 
+        } else {
+        res.send(item);
+        }
+         
     } catch(err) {
         res.status(400).send("error: Something went wrong: " + err); 
     }
