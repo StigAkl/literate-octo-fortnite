@@ -4,8 +4,9 @@ import items from './dummy.json';
 
 export const fetchAllItems = callback => {
     
+    const url = process.env.REACT_APP_API_URL || "http://localhost:3001/api/items";
     if(config.useDatabase) {
-        axios.get("http://localhost:3001/api/items").then((result) => {
+        axios.get(url).then((result) => {
             callback(result.data); 
         }).catch((err) => {
             console.log(err); 
