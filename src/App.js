@@ -98,8 +98,7 @@ class App extends Component {
 
     const items = this.state.items; 
     let itemList = items.length ? (
-      <div className="row">
-
+      <div className="row justify-content-center">
         {items.map((item, index) => {
           return (
             <React.Fragment key={item.id}>
