@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import "../assets/default.css"
-import kkk from "../assets/imgs/kk.jpg"
 
 class Character extends Component {
     constructor(props) {
