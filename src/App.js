@@ -4,7 +4,6 @@ import Characters from './Components/Characters';
 import AddItem from './Components/AddItem'; 
 import {fetchAllItems} from "./api/api-service";
 import {BrowserRouter, Route} from 'react-router-dom'; 
-import axios from 'axios';
 
 const renderMergedProps = (component, ...rest) => {
   const finalProps = Object.assign({}, ...rest);
@@ -37,7 +36,7 @@ class App extends Component {
       })
     })
   }
-  
+
   render() {
     console.log(this.state.items);
     const style={
