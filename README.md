@@ -1,5 +1,7 @@
 ## literate-octo-fortnite
 
+[![CircleCI](https://circleci.com/gh/StigAkl/literate-octo-fortnite/tree/master.svg?style=svg)](https://circleci.com/gh/StigAkl/literate-octo-fortnite/tree/master)
+
 This is a server rendered react app for sorting skins based on REAL rarity (i.e sort by last seen). 
 ## How to run
 1. Set ```useDatabase: false``` in src/config.json
