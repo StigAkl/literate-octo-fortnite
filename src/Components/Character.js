@@ -32,7 +32,7 @@ class Character extends Component {
                 <div className={infoClass}>
                     <div className="name">{this.item.name}</div>
                     <div className="price">
-                        <img src="https://gamepedia.cursecdn.com/fortnite_gamepedia/f/f3/V-bucks_icon.png?version=970070f7945ee6930b14d520ec1f59b7" className="vbuckIcon"></img>
+                        <img src="https://gamepedia.cursecdn.com/fortnite_gamepedia/f/f3/V-bucks_icon.png?version=970070f7945ee6930b14d520ec1f59b7" alt={this.item.name} className="vbuckIcon"></img>
                             {this.item.price.toFixed(0)}
                     </div>
                     <div className="last-seen">Last seen: {formatted_date}</div>
