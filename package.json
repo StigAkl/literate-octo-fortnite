@@ -18,7 +18,7 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server/server.js",
     "dev": "npm run build && npm start",
     "react": "react-scripts start",
     "build": "react-scripts build",

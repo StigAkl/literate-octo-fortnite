@@ -24,11 +24,12 @@ router.post("/api/items", async(req, res) => {
     }
 })
 
-router.put("/api/items/:id", async(req, res) => {
+router.put("/api/items/:name", async(req, res) => {
     try {
-        const item = await Item.findByIdAndUpdate(req.params.id, req.body); 
 
-        
+        console.log(req.params.name + " + updated last seen: " + req.body.lastSeen); 
+        const item = await Item.findOneAndUpdate({name: req.params.name}, req.body); 
+
         if(!item) {
             res.status(404).send("error: Could not find any items with the id " + req.params.id); 
         } else {
