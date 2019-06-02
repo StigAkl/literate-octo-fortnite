@@ -37,59 +37,7 @@ class App extends Component {
       })
     })
   }
-
-  resetHandler = (e) => {
-    let items = []; 
-    this.state.items.map((item) => {
-      const id = item._id; 
-
-      axios.put("http://localhost:3001/api/items/" + id, {
-               "image": "https://image.fnbr.co/outfit/5ab17f395f957f27504aa54c/png.png"
-             }).then((result) => {
-               items.push(result.data); 
-             }).catch((err) => {
-               console.log("Something went wrong when saving image: ", err); 
-             })
-    })
-
-    this.setState({
-      items
-    })
-  }
   
-  buttonHandler = (e) => {
-
-    let delay = 0; 
-    this.state.items.map((item) => {
-      delay = delay + 200; 
-      setTimeout(() => {
-        const id = item._id; 
-        const name = item.name; 
-        axios.get("https://fnbr.co/api/images?search="+name, {
-          headers: {
-            "x-api-key": "xxx"
-          }
-        }).then((result) => {
-           if(result.data.data.length > 0) {
-             console.log("Success: " + result.data.data[0].images.png); 
-             const png = result.data.data[0].images.png; 
-
-             axios.put("http://localhost:3001/api/items/" + id, {
-               "image": png
-             }).then((result) => {
-               console.log(result.data); 
-             }).catch((err) => {
-               console.log("Something went wrong when saving image: ", err); 
-             })
-           } else {
-             console.log("Could not find outfit");
-           }
-        }).catch((err) => {
-          console.log("Error: ", err); 
-        })
-      },delay*2+1000)
-    })
-  }
   render() {
     console.log(this.state.items);
     const style={
