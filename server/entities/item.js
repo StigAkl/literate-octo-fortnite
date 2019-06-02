@@ -26,13 +26,12 @@ const itemSchema = new mongoose.Schema({
         required: true
     }, 
     image: {
-        type: String
+        type: String,
     },
 
     obtained: {
         type: String,
-        required: true, 
-        deafult: "shop"
+        required: true
     }
 }); 
 
