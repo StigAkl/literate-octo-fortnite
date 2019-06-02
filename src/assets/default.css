@@ -1,46 +1,102 @@
 * {
     margin:0; 
     padding: 0; 
+    font-family: 'Source Sans Pro', sans-serif;
+
+    --rarity-common: #7b7b7b;
+    --rarity-common-dark: #181818;
+    --rarity-uncommon: #3a7913;
+    --rarity-uncommon-dark: #0b1803;
+    --rarity-rare: #1258a2;
+    --rarity-rare-dark: #031120;
+    --rarity-epic: #bd3ffa;
+    --rarity-epic-dark: #29013d;
+    --rarity-legendary: #ff7605;
+    --rarity-legendary-dark: #331700;
+    --rarity-mythic: #dca01e;
+    --rarity-mythic-dark: #2b1f06;
+    --rarity-marvel: #b22222;
+    --rarity-marvel-dark: #230606;
 }
 
+.background-common {
+    background-image: linear-gradient(to bottom, var(--rarity-common), var(--rarity-common-dark));
+}
+
+.background-uncommon {
+    background-image: linear-gradient(to bottom, var(--rarity-uncommon), var(--rarity-uncommon-dark));
+}
+
+.background-rare {
+    background-image: linear-gradient(to bottom, var(--rarity-rare), var(--rarity-rare-dark));
+}
+
+.background-epic {
+    background-image: linear-gradient(to bottom, var(--rarity-epic), var(--rarity-epic-dark));
+}
+
+.background-legendary {
+    background-image: linear-gradient(to bottom, var(--rarity-legendary), var(--rarity-legendary-dark));
+}
+
+.background-mythic {
+    background-image: linear-gradient(to bottom, var(--rarity-mythic), var(--rarity-mythic-dark));
+}
+
+.background-marvel {
+    background-image: linear-gradient(to bottom, var(--rarity-marvel), var(--rarity-marvel-dark));
+}
+
+body {
+    background-image: linear-gradient(to bottom, #051937, #052046, #062755, #082e64, #0b3574);
+    color: rgba(255, 255, 255, 0.9);
+}
 
 .item {
     margin-top: 20px; 
     text-align: center; 
     height: 420px; 
     width: 100%; 
-    border: 1px solid black; 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 5px;
     padding: 0; 
+    background-color: rgba(255, 255, 255, 0.05);
+    margin: 2px;
+    overflow: hidden;
 }
 
 .info-box {
     margin: 0; 
+    margin-top: -10%;
     padding: 0; 
     width: 100%; 
-    height: 15%; 
-    font-family: 'Open Sans', sans-serif;
+    height: 22%; 
 }
 
-p.name{
-    border-bottom: 1px solid black; 
-    float: left; 
-    font-weight: bold; 
-    text-align: left; 
-    padding-left: 5px; 
-    width: 50%;
-    padding: 5px; 
-}
-p.price {
-    border-bottom: 1px solid black; 
-    float: right; 
-    text-align: right; 
-    padding-left: 5px; 
-    width: 50%;
-    padding: 5px; 
+.vbuckIcon {
+    display: inline;
+    height: 25%;
+    vertical-align: -20%;
+    margin-right: 2px;
 }
 
-p.last-seen {
-    line-height: 50%; 
-    border-top: 1px solid black; 
-    font-style: italic; 
+.name{
+    height: 47%;
+    padding-top: 5px;
+    line-height: 1.2em;
+    font-weight: bold;
+    text-align: center;
+    width: 95%;
+    margin-left: 2.5%;
+    overflow: hidden;
+}
+.price {
+    display:inline;
+    padding-left: 5px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.last-seen {
+    font-size: 14px;
 }
