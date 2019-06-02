@@ -7,119 +7,151 @@ class AddItem extends Component {
         name: "", 
         rarity: ['Uncommon'], 
         lastSeen: "", 
-        price: ["-1"],
+        price: "-1",
         success: "", 
+        obtained: ["shop"],
         error: ""
+    }
+
+    addItems = (e) => {
+        e.preventDefault(); 
+
+        axios.get("https://fortnite-api.theapinetwork.com/items/list", {
+            headers: {
+                "Authorization": "..."
+            }
+        })
+        .then((result) => {
+            const data = result.data.data.filter((item) => {
+                return item.item.type === "outfit"; 
+            }); 
+
+            let delay = 0; 
+
+            data.forEach((item) => {
+                let lastUpdate = item.lastUpdate; 
+                var lastSeen = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                lastSeen.setUTCSeconds(lastUpdate);
+
+                let name = item.item.name; 
+                const obtained_type = item.item.obtained_type; 
+
+                if(name.includes("Outfit")) {
+                    name = name.replace("Outfit", "").trim(); 
+                }
+
+                if(name.includes("outfit")) {
+                    name = name.replace("outfit", "").trim(); 
+                }
+
+                delay = delay + 600; 
+
+                setTimeout(() => {
+                    axios.get("https://fnbr.co/api/images?type=outfit&search="+name, {
+                    headers: {
+                    "x-api-key": "..."
+                    }
+                })
+            
+                .then((response) => {
+                    const result = response.data.data; 
+                    if(result.length === 0) {
+                        console.log("No image for ", name); 
+                    } else {
+
+                        let image = result[0].images.png;
+                        let rarity = result[0].rarity.charAt(0).toUpperCase() + result[0].rarity.slice(1); 
+                        let price = obtained_type === "vbucks" ? result[0].price.replace(",","") : "-1";
+                        let obtained = obtained_type === "vbucks" ? "Shop" : result[0].price; 
+
+                        if (result[0].price.toLowerCase().includes("tier")) {
+                            console.log("Yes"); 
+                            if(obtained === "vbucks") {
+                                obtained = result[0].price; 
+                                price = "-1"; 
+                            }
+                        }
+
+                        axios.post("http://localhost:3001/api/items", {
+                            
+                                name: name, 
+                                price: price, 
+                                rarity: rarity, 
+                                lastSeen: lastSeen,
+                                image: image, 
+                                obtained: obtained
+                            
+                        }).then((result) => {
+                            console.log("Success: ", result); 
+                        }).catch((e) => {
+                            console.log("Something went wrong for " + name + ":", e); 
+                        });
+                    }
+                });
+
+                }, delay)
+            })
+
+        });
     }
 
     handleSubmit = (e) => {
         e.preventDefault(); 
         
-        axios.post("http://localhost:3001/api/items", {
-            name: this.state.name, 
-            rarity: this.state.rarity[0], 
-            lastSeen: this.state.lastSeen, 
-            price: this.state.price[0]
-        }).then((result) => {
-            this.setState({
-                success: "Success! " + result.name + " added!",
-                error: ""
-            })
-        }).catch((error) => {
-            console.log("Error: ", error.response.data); 
-            this.setState({
-                success: "",
-                error: error.response.data.error
-            })
-        })
+        axios.get("https://fnbr.co/api/images?type=outfit&search="+this.state.name, {
+            headers: {
+            "x-api-key": "..."
+            }
+        }).then((response) => {
+            let result = response.data.data;
+            
+            if(result.length === 0) {
+                this.setState({
+                    error: "Could not fetch data for " + this.state.name
+                }); 
+
+                throw new Error(`Something went wrong..${this.state.error}`); 
+            }
+            else {
+                const rarity = result[0].rarity.charAt(0).toUpperCase() + result[0].rarity.slice(1); 
+                const price = result[0].price.replace(",",""); 
+                
+                this.setState({
+                    rarity: rarity, 
+                    price: price
+                }); 
+
+                axios.post("http://localhost:3001/api/items", {
+                    name: this.state.name, 
+                    rarity: this.state.rarity, 
+                    lastSeen: this.state.lastSeen, 
+                    price: this.state.price,
+                    obtained: this.state.obtained[0]
+                }).then((result) => {
+                    this.setState({
+                        success: "Success! " + result.data.name + " added!",
+                        error: ""
+                    })
+                }).catch((error) => {
+                    this.setState({
+                        success: "",
+                        error: error.response.data.error
+                    })
+                });
+
+            }
+            
+        }).catch((err) => {
+
+        });
     }
 
-    formatDate(date) {
-        let dateArr = date.split("."); 
-
-        let d = dateArr[0]; 
-        let m = dateArr[1]; 
-        let y = dateArr[2]; 
-
-        let newDate = y + "-" + m + "-" + d; 
-        console.log(newDate); 
-        return new Date(newDate); 
-    }
-
-    handleChange = (e) => {
-        e.preventDefault(); 
-
-
-        if(e.target.id === "rarity" || e.target.id === "price") {
-            let value = [e.target.value]; 
-            this.setState({
-                [e.target.id]: value
-            })
-        } 
-        
-        else if(e.target.id === "lastSeen") {
-            let date = this.formatDate(e.target.value); 
-            this.setState({
-                [e.target.id]: date
-            })
-        }
-        else {
-            this.setState({
-                [e.target.id]: e.target.value
-            })
-        }
-        console.log(this.state); 
-    }
 
     render() {
+
         return (
             <div className="container">
-            <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label className="text-muted">Name</label>
-                        <input type="text" placeholder="Enter name" id="name" onChange={this.handleChange} className="form-control" />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="text-muted">Last seen</label>
-                        <input type="text" placeholder="Date last seen" value={this.state.lastSeen} id="lastSeen" onChange={this.handleChange} className="form-control" />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Price</label>
-                            <select value={this.state.price} onChange={this.handleChange} multiple className="form-control" id="price">
-                                <option value="-1">Battlepass or bundle pack</option>
-                                <option value="800">800</option>
-                                <option value="1200">1200</option>
-                                <option value="1500">1500</option>
-                                <option value="2000">2000</option>
-                            </select>
-                    </div>
-
-                    <div className="form-group">
-                        <label>Price</label>
-                            <select value={this.state.rarity} onChange={this.handleChange} multiple className="form-control" id="rarity">
-                                <option value="Uncommon">Uncommon</option>
-                                <option value="Rare">Rare</option>
-                                <option value="Epic">Epic</option>
-                                <option value="Legendary">Legendary</option>
-                            </select>
-                    </div>
-                    <button type="submit" className="btn btn-outline-primary">Add Item</button>
-                </form>
-
-                <div className="info-box">
-                    {this.state.error && 
-                    <div className="alert alert-danger" role="alert">
-                        {this.state.error}
-                    </div>}
-
-                    {this.state.success && 
-                    <div className="alert alert-success" role="alert">
-                        {this.state.success}
-                    </div>
-                    }
-                </div>
+                <button onClick={this.addItems}>Add all items</button>
             </div>
         );
     }

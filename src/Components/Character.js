@@ -19,6 +19,7 @@ class Character extends Component {
             height: "83%",
             marginLeft: "-33%"
         }
+        
         const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
         const lastSeen = new Date(this.item.lastSeen); 
         const formatted_date = lastSeen.getDate() + ". " + months[lastSeen.getMonth()] + " " + lastSeen.getFullYear(); 
