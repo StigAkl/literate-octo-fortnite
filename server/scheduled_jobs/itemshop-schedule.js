@@ -6,7 +6,7 @@ const Item = require("../entities/item");
 
 axios.get(api_url, {
     headers: {
-        "x-api-key": process.env.FNBR_API_KEY || "024011f1-bc2b-41da-9c08-84c7350f10a1"
+        "x-api-key": process.env.FNBR_API_KEY
     }
 }).then((result) => {
     const featured = result.data.data.featured;
