@@ -1,34 +1,48 @@
 const axios = require("axios"); 
 const api_url = process.env.UPDATE_SHOP_URL || "https://fnbr.co/api/shop"; 
-require('./../db/mongoose'); 
 const Item = require("../entities/item"); 
+const mongoose = require('mongoose'); 
+
+const connectionUrl = process.env.MONGODB_URI || "mongodb://heroku_g461gk83:278ejiercpuo6lihadr1fbbqss@ds263876.mlab.com:63876/heroku_g461gk83"
+
+mongoose.set('useFindAndModify', false); 
+mongoose.connect(connectionUrl, {
+    useNewUrlParser: true
+}); 
+
+mongoose.connection.on("disconnected", function () {
+    console.log("Disconnected"); 
+})
 
 
-
-function updateDatabase(name, rarity, price, image, date) {
+async function updateDatabase(name, rarity, price, image, date, finished) {
     options = { upsert: true, new: true, setDefaultsOnInsert: true };
-    Item.findOneAndUpdate({name: name}, {
+    console.log("Updating")
+    await Item.findOneAndUpdate({name: name}, {
         name: name,
         rarity: rarity,
         price: price,
         image: image,
         lastSeen: date
-    }, options, 
-    
-    function(error, result) {
-        if (error) {
-            console.log("Something went wrong:", error); 
-            return; 
+    }, options).then((result) => {
+        console.log("Yay"); 
+        if(finished) {
+            mongoose.connection.close(); 
         }
-        console.log("Success: " + name + " updated"); 
-    });
+    }).catch((err) => {
+        console.log("noo" + err)
+    })
 }
+
+
 
 axios.get(api_url, {
     headers: {
         "x-api-key": process.env.FNBR_API_KEY || "024011f1-bc2b-41da-9c08-84c7350f10a1"
     }
 }).then((result) => {
+
+    let finished = false; 
     const featured = result.data.data.featured;
     const daily = result.data.data.daily; 
     const date = result.data.data.date; 
@@ -46,13 +60,14 @@ axios.get(api_url, {
                     image = item.images.icon; 
                 }
 
-                updateDatabase(name, rarity, price, image, date);
+                updateDatabase(name, rarity, price, image, date, finished);
             }
         });
     }
 
     if(daily.length > 0) {
-        daily.forEach((item) => {
+        daily.forEach((item, index) => {
+
             if(item.type.toLowerCase() === "outfit") {
                 const name = item.name; 
 
@@ -64,7 +79,11 @@ axios.get(api_url, {
                     image = item.images.icon; 
                 }
 
-                updateDatabase(name, rarity, price, image, date); 
+                if(index >= (daily.length-1)) finished = true; 
+
+                updateDatabase(name, rarity, price, image, date, finished); 
+
+                console.log(index); 
             }
         });
 
