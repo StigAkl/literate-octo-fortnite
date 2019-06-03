@@ -1,9 +1,9 @@
 const axios = require("axios"); 
-const api_url = process.env.UPDATE_SHOP_URL || "https://fnbr.co/api/shop"; 
+const api_url = process.env.UPDATE_SHOP_URL;
 const Item = require("../entities/item"); 
 const mongoose = require('mongoose'); 
 
-const connectionUrl = process.env.MONGODB_URI || "mongodb://heroku_g461gk83:278ejiercpuo6lihadr1fbbqss@ds263876.mlab.com:63876/heroku_g461gk83"
+const connectionUrl = process.env.MONGODB_URI;
 
 mongoose.set('useFindAndModify', false); 
 mongoose.connect(connectionUrl, {
@@ -38,7 +38,7 @@ async function updateDatabase(name, rarity, price, image, date, finished) {
 
 axios.get(api_url, {
     headers: {
-        "x-api-key": process.env.FNBR_API_KEY || "024011f1-bc2b-41da-9c08-84c7350f10a1"
+        "x-api-key": process.env.FNBR_API_KEY
     }
 }).then((result) => {
 
