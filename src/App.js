@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Character from './Components/Character'; 
 import Characters from './Components/Characters'; 
-import AddItem from './Components/AddItem'; 
 import { fetchAllItems } from "./api/api-service";
 import {BrowserRouter, Route} from 'react-router-dom'; 
 
@@ -62,7 +61,6 @@ class App extends Component {
     <div>
       <BrowserRouter>
         <PropsRoute path="/home" component={Characters} itemList={itemList} />
-        <PropsRoute path="/add-item" component={AddItem} />
       </BrowserRouter>
     </div>
   );
