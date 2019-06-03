@@ -1,7 +1,7 @@
 const axios = require("axios"); 
 const api_url = process.env.UPDATE_SHOP_URL || "https://fnbr.co/api/shop"; 
+require('./../db/mongoose'); 
 const Item = require("../entities/item"); 
-
 
 
 axios.get(api_url, {
