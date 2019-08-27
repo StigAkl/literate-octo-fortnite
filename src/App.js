@@ -38,7 +38,11 @@ class App extends Component {
   }
 
   handleSort = event => {
-    
+    event.preventDefault(); 
+    const desc = !this.state.desc; 
+    this.setState({
+      desc
+    });
   }
 
   render() {
