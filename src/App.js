@@ -42,7 +42,7 @@ class App extends Component {
       backgroundColor: "#ff0000"
     }
 
-    const items = this.state.items; 
+    const items = this.state.items.sort((a,b) => (new Date(b.lastSeen) - new Date(a.lastSeen))); 
     let itemList = items.length ? (
       <div className="row justify-content-center">
         {items.map((item, index) => {
