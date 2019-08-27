@@ -56,8 +56,8 @@ class App extends Component {
     : this.state.items.sort((a,b) => (new Date(a.lastSeen) - new Date(b.lastSeen))); 
 
     let itemList = items.length ? (
+      <button onClick={this.handleSort}>Sort xD</button>
       <div className="row justify-content-center">
-        <button onClick={this.handleSort}>Sort xD</button>
         {items.map((item, index) => {
           return (
             <React.Fragment key={item.id}>
