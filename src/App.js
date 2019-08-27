@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Characters from './Components/Characters'; 
 import Character from './Components/Character'; 
 import { fetchAllItems } from "./api/api-service";
 
