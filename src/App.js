@@ -23,7 +23,8 @@ class App extends Component {
   constructor(props) {
     super(props); 
     this.state = {
-      items: []
+      items: [],
+      desc: true
     }
   }
 
@@ -36,15 +37,23 @@ class App extends Component {
     })
   }
 
+  handleSort = event => {
+    
+  }
+
   render() {
     console.log(this.state.items);
     const style={
       backgroundColor: "#ff0000"
     }
 
-    const items = this.state.items.sort((a,b) => (new Date(b.lastSeen) - new Date(a.lastSeen))); 
+    const items = this.state.desc ? 
+    this.state.items.sort((a,b) => (new Date(b.lastSeen) - new Date(a.lastSeen)))
+    : this.state.items.sort((a,b) => (new Date(a.lastSeen) - new Date(b.lastSeen))); 
+
     let itemList = items.length ? (
       <div className="row justify-content-center">
+        <button onClick={this.handleSort}>Sort xD</button>
         {items.map((item, index) => {
           return (
             <React.Fragment key={item.id}>
