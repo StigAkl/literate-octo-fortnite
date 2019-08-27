@@ -1,81 +1,55 @@
 import React, {Component} from 'react';
-import Character from './Components/Character'; 
 import Characters from './Components/Characters'; 
+import Character from './Components/Character'; 
 import { fetchAllItems } from "./api/api-service";
-import {BrowserRouter, Route} from 'react-router-dom'; 
-
-const renderMergedProps = (component, ...rest) => {
-  const finalProps = Object.assign({}, ...rest);
-  return (
-    React.createElement(component, finalProps)
-  );
-}
-
-const PropsRoute = ({ component, ...rest }) => {
-  return (
-    <Route {...rest} render={routeProps => {
-      return renderMergedProps(component, routeProps, rest);
-    }}/>
-  );
-}
 
 class App extends Component {
-  constructor(props) {
-    super(props); 
+
+  constructor() {
+    super(); 
     this.state = {
       items: [],
-      desc: true
+      desc: false
     }
   }
 
+  handleSort = () => {
+    
+    let items = this.state.items; 
 
+    items.sort((a,b) => this.state.desc ? (new Date(a.lastSeen) - new Date(b.lastSeen)) : (new Date(b.lastSeen) - new Date(a.lastSeen))); 
+
+    this.setState({
+      items,
+      desc: !this.state.desc
+    }); 
+  }
+
+  
   componentDidMount() {
     fetchAllItems((result) => {
+
+      result.sort((a,b) => (new Date(a.lastSeen) - new Date(b.lastSeen))); 
+
       this.setState({
         items: result
       })
     })
   }
+  
+  
 
-  handleSort = event => {
-    event.preventDefault(); 
-    const desc = !this.state.desc; 
-    this.setState({
-      desc
-    });
-  }
+  render() { 
 
-  render() {
-    console.log(this.state.items);
-    const style={
-      backgroundColor: "#ff0000"
-    }
-
-    const items = this.state.desc ? 
-    this.state.items.sort((a,b) => (new Date(b.lastSeen) - new Date(a.lastSeen)))
-    : this.state.items.sort((a,b) => (new Date(a.lastSeen) - new Date(b.lastSeen))); 
-
-    let itemList = items.length ? (
-      <button onClick={this.handleSort}>Sort xD</button>
-      <div className="row justify-content-center">
-        {items.map((item, index) => {
-          return (
-            <React.Fragment key={item.id}>
-                <Character styleting={style} item={item} />
-            </React.Fragment>
-          )
-        })}
-
-      </div>
-    ) : <p>Ingen data..</p>
+    const {items} = this.state; 
 
   return (
-
-    <div>
-      <BrowserRouter>
-        <PropsRoute path="/home" component={Characters} itemList={itemList} />
-      </BrowserRouter>
-    </div>
+      <div className="container">
+      <button onClick={this.handleSort}>Toggle Sort</button>
+      <div className="row justify-content-center">
+          {items ? items.map((c,i) => <Character item={c} key={i} />) : <p>Ingen data</p>}
+          </div>
+      </div>
   );
   }
 }
