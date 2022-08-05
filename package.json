@@ -9,7 +9,7 @@
     "express-favicon": "^2.0.1",
     "jetty": "^0.2.1",
     "jsdom": "^15.1.1",
-    "mongoose": "^5.5.11",
+    "mongoose": "^5.7.5",
     "path": "^0.12.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
